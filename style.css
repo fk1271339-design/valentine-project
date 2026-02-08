@@ -1,418 +1,251 @@
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
-}
-body {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffe6e9;
   font-family: "Quicksand", sans-serif;
 }
-.container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-100%, -50%);
-  transition: 0.2s;
+
+body {
+  background: #ffe6eb;
+  overflow-x: hidden;
 }
 
-.question-container {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transition: 0.2s;
-}
-.local-gif {
+/* Marquee */
+.marquee-container {
+  position: fixed;
+  top: 0;
   width: 100%;
-  max-width: 300px;
-  border-radius: 10px;
-  display: block;
-  margin: 0 auto 3rem auto;
-  pointer-events: none;
+  background: #fff0f3;
+  padding: 10px 0;
+  z-index: 999;
+}
+
+.marquee-text {
+  white-space: nowrap;
+  animation: scroll 20s linear infinite;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #d6336c;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Containers */
+.container {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+.local-gif {
+  max-width: 280px;
+  max-height: 50vh;
+  /* Limit height to prevent overflow on small screens */
+  border-radius: 15px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  /* Push image down specifically */
+  object-fit: contain;
+  /* Ensure image isn't cropped awkwardly */
 }
 
 .question {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
+
 .button-container {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
+  position: relative;
+  height: 80px;
 }
+
 .btn {
-  position: absolute;
-  border: none;
+  padding: 12px 25px;
   border-radius: 50px;
-  padding: 10px 20px;
-  font-family: "Poppins", sans-serif;
-  font-size: 18px;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #ff6b81;
+  font-size: 18px;
+  background: #ff6b81;
   color: white;
-  transform: scale(1.05);
-  box-shadow: 0px 4px 15px rgba(255, 107, 129, 0.5);
-}
-.btn:hover {
-  background-color: #ffa4b1;
-  transform: scale(1.1);
-  box-shadow: 0px 6px 20px rgba(255, 107, 129, 0.7);
-  text-shadow: 1px 1px 5px rgba(255, 182, 193, 0.8);
+  position: absolute;
 }
 
 .yes-btn {
-  right: 54%;
-}
-.no-btn {
-  left: 54%;
+  left: 40%;
 }
 
+.no-btn {
+  left: 55%;
+  transition: all 0.5s ease;
+}
+
+/* Result */
 .result-container {
   display: none;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-100%, -50%);
-  transition: 0.2s;
 }
+
 .gif-result {
+  max-width: 280px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+/* Gallery Button */
+.gallery-trigger-container {
+  position: fixed;
+  bottom: 10px;
+  /* Moved closer to bottom edge */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.gallery-trigger-btn {
+  padding: 10px 25px;
+  /* Slight reduction in size */
+  font-size: 1.1rem;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(45deg, #ff6b81, #ffa4b1);
+  color: white;
+  cursor: pointer;
+}
+
+/* Side Gallery */
+.side-gallery {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  width: 220px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateX(-120%);
+  transition: 0.8s;
+}
+
+.right-gallery {
+  right: 0;
+  transform: translateX(120%);
+}
+
+.left-gallery {
+  left: 0;
+}
+
+.side-gallery.revealed {
+  transform: translateX(0);
+}
+
+.gallery-item {
+  background: white;
+  padding: 6px;
   border-radius: 10px;
-  margin-bottom: 2rem;
-}
-.result-container h2 {
-  font-size: 3.2rem;
-  text-align: center;
+  position: relative;
+  cursor: pointer;
 }
 
-/* heart loader */
-.cssload-main {
+.gallery-item img,
+.gallery-item video {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Ribbon */
+.tape-effect::before {
+  content: "🎀";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+}
+
+.gift-box.opened::before {
   display: none;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 12px;
+}
+
+.close {
   position: absolute;
-  content: "";
-  top: 17%;
-  left: 50%;
-  margin: 200px auto 0 auto;
-  transform: translate(-100%, -50%);
-  -o-transform: translate(-100%, -240%);
-  -ms-transform: translate(-100%, -240%);
-  -webkit-transform: translate(-100%, -240%);
-  -moz-transform: translate(-100%, -240%);
+  top: 20px;
+  right: 30px;
+  font-size: 3rem;
+  color: white;
+  cursor: pointer;
 }
 
-.cssload-main * {
-  font-size: 62px;
+/* Flowers */
+.flowers-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
 }
 
-.cssload-heart {
-  animation: cssload-heart 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
-  -o-animation: cssload-heart 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -ms-animation: cssload-heart 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -webkit-animation: cssload-heart 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -moz-animation: cssload-heart 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  top: 50%;
-  content: "";
-  left: 50%;
+.flower {
   position: absolute;
+  font-size: 2rem;
+  animation: floatUp 8s linear infinite;
 }
 
-.cssload-heartL {
-  width: 1em;
-  height: 1em;
-  border: 1px solid #ff0000;
-  background-color: #ff0000;
-  content: "";
-  position: absolute;
-  display: block;
-  border-radius: 100%;
-  animation: cssload-heartL 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
-  -o-animation: cssload-heartL 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -ms-animation: cssload-heartL 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -webkit-animation: cssload-heartL 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -moz-animation: cssload-heartL 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  transform: translate(-28px, -27px);
-  -o-transform: translate(-28px, -27px);
-  -ms-transform: translate(-28px, -27px);
-  -webkit-transform: translate(-28px, -27px);
-  -moz-transform: translate(-28px, -27px);
-}
-
-.cssload-heartR {
-  width: 1em;
-  height: 1em;
-  border: 1px solid #ff0000;
-  background-color: #ff0000;
-  content: "";
-  position: absolute;
-  display: block;
-  border-radius: 100%;
-  transform: translate(28px, -27px);
-  -o-transform: translate(28px, -27px);
-  -ms-transform: translate(28px, -27px);
-  -webkit-transform: translate(28px, -27px);
-  -moz-transform: translate(28px, -27px);
-  animation: cssload-heartR 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
-  -o-animation: cssload-heartR 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -ms-animation: cssload-heartR 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -webkit-animation: cssload-heartR 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -moz-animation: cssload-heartR 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-}
-
-.cssload-square {
-  width: 1em;
-  height: 1em;
-  border: 1px solid #ff0000;
-  background-color: #ff0000;
-  position: relative;
-  display: block;
-  content: "";
-  transform: scale(1) rotate(-45deg);
-  -o-transform: scale(1) rotate(-45deg);
-  -ms-transform: scale(1) rotate(-45deg);
-  -webkit-transform: scale(1) rotate(-45deg);
-  -moz-transform: scale(1) rotate(-45deg);
-  animation: cssload-square 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
-  -o-animation: cssload-square 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -ms-animation: cssload-square 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -webkit-animation: cssload-square 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -moz-animation: cssload-square 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-}
-
-.cssload-shadow {
-  top: 97px;
-  left: 50%;
-  content: "";
-  position: relative;
-  display: block;
-  bottom: -0.5em;
-  width: 1em;
-  height: 0.24em;
-  background-color: rgb(215, 215, 215);
-  border: 1px solid rgb(215, 215, 215);
-  border-radius: 50%;
-  animation: cssload-shadow 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
-  -o-animation: cssload-shadow 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -ms-animation: cssload-shadow 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -webkit-animation: cssload-shadow 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-  -moz-animation: cssload-shadow 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite
-    normal;
-}
-
-@keyframes cssload-square {
-  50% {
-    border-radius: 100%;
-    transform: scale(0.5) rotate(-45deg);
+@keyframes floatUp {
+  from {
+    transform: translateY(110vh);
+    opacity: 1;
   }
-  100% {
-    transform: scale(1) rotate(-45deg);
+
+  to {
+    transform: translateY(-10vh);
+    opacity: 0;
   }
 }
 
-@-o-keyframes cssload-square {
-  50% {
-    border-radius: 100%;
-    -o-transform: scale(0.5) rotate(-45deg);
+/* Responsive */
+@media (max-width: 768px) {
+  .side-gallery {
+    position: relative;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    transform: none;
+    display: none;
   }
-  100% {
-    -o-transform: scale(1) rotate(-45deg);
-  }
-}
 
-@-ms-keyframes cssload-square {
-  50% {
-    border-radius: 100%;
-    -ms-transform: scale(0.5) rotate(-45deg);
-  }
-  100% {
-    -ms-transform: scale(1) rotate(-45deg);
-  }
-}
-
-@-webkit-keyframes cssload-square {
-  50% {
-    border-radius: 100%;
-    -webkit-transform: scale(0.5) rotate(-45deg);
-  }
-  100% {
-    -webkit-transform: scale(1) rotate(-45deg);
-  }
-}
-
-@-moz-keyframes cssload-square {
-  50% {
-    border-radius: 100%;
-    -moz-transform: scale(0.5) rotate(-45deg);
-  }
-  100% {
-    -moz-transform: scale(1) rotate(-45deg);
-  }
-}
-
-@keyframes cssload-heart {
-  50% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(720deg);
-  }
-}
-
-@-o-keyframes cssload-heart {
-  50% {
-    -o-transform: rotate(360deg);
-  }
-  100% {
-    -o-transform: rotate(720deg);
-  }
-}
-
-@-ms-keyframes cssload-heart {
-  50% {
-    -ms-transform: rotate(360deg);
-  }
-  100% {
-    -ms-transform: rotate(720deg);
-  }
-}
-
-@-webkit-keyframes cssload-heart {
-  50% {
-    -webkit-transform: rotate(360deg);
-  }
-  100% {
-    -webkit-transform: rotate(720deg);
-  }
-}
-
-@-moz-keyframes cssload-heart {
-  50% {
-    -moz-transform: rotate(360deg);
-  }
-  100% {
-    -moz-transform: rotate(720deg);
-  }
-}
-
-@keyframes cssload-heartL {
-  60% {
-    transform: scale(0.4);
-  }
-}
-
-@-o-keyframes cssload-heartL {
-  60% {
-    -o-transform: scale(0.4);
-  }
-}
-
-@-ms-keyframes cssload-heartL {
-  60% {
-    -ms-transform: scale(0.4);
-  }
-}
-
-@-webkit-keyframes cssload-heartL {
-  60% {
-    -webkit-transform: scale(0.4);
-  }
-}
-
-@-moz-keyframes cssload-heartL {
-  60% {
-    -moz-transform: scale(0.4);
-  }
-}
-
-@keyframes cssload-heartR {
-  40% {
-    transform: scale(0.4);
-  }
-}
-
-@-o-keyframes cssload-heartR {
-  40% {
-    -o-transform: scale(0.4);
-  }
-}
-
-@-ms-keyframes cssload-heartR {
-  40% {
-    -ms-transform: scale(0.4);
-  }
-}
-
-@-webkit-keyframes cssload-heartR {
-  40% {
-    -webkit-transform: scale(0.4);
-  }
-}
-
-@-moz-keyframes cssload-heartR {
-  40% {
-    -moz-transform: scale(0.4);
-  }
-}
-
-@keyframes cssload-shadow {
-  50% {
-    transform: scale(0.5);
-    border-color: rgb(228, 228, 228);
-  }
-}
-
-@-o-keyframes cssload-shadow {
-  50% {
-    -o-transform: scale(0.5);
-    border-color: rgb(228, 228, 228);
-  }
-}
-
-@-ms-keyframes cssload-shadow {
-  50% {
-    -ms-transform: scale(0.5);
-    border-color: rgb(228, 228, 228);
-  }
-}
-
-@-webkit-keyframes cssload-shadow {
-  50% {
-    -webkit-transform: scale(0.5);
-    border-color: rgb(228, 228, 228);
-  }
-}
-
-@-moz-keyframes cssload-shadow {
-  50% {
-    -moz-transform: scale(0.5);
-    border-color: rgb(228, 228, 228);
+  .side-gallery.revealed {
+    display: flex;
   }
 }
