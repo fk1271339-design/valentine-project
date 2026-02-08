@@ -1,3 +1,4 @@
+// ================= BASIC SELECTORS =================
 const questionContainer = document.querySelector(".question-container");
 const resultContainer = document.querySelector(".result-container");
 const gifResult = document.querySelector(".gif-result");
@@ -5,29 +6,44 @@ const heartLoader = document.querySelector(".cssload-main");
 const yesBtn = document.querySelector(".js-yes-btn");
 const noBtn = document.querySelector(".js-no-btn");
 
-// No button run
+// 🔴 NEW: front image (GIF hata di, image lagai)
+const frontImg = document.querySelector(".local-gif");
+// ⚠️ HTML me image par ye class honi chahiye:
+// <img src="front img.jpeg" class="front-img">
+
+// ================= NO BUTTON FIX =================
 noBtn.addEventListener("mouseover", () => {
 
-  // container ke andar hi boundary
-  const containerRect = questionContainer.getBoundingClientRect();
+  if (!frontImg) return; // safety
+
+  const imgRect = frontImg.getBoundingClientRect();
   const btnRect = noBtn.getBoundingClientRect();
+  const padding = 10;
 
-  const padding = 20; // edges se thoda gap
+  // 👉 sirf image ke aas-paas
+  const minX = imgRect.left - btnRect.width / 2;
+  const maxX = imgRect.right - btnRect.width / 2;
 
-  const minX = padding;
-  const maxX = containerRect.width - btnRect.width - padding;
+  // 👉 mid area only (neeche nahi jayega)
+  const minY = imgRect.top + imgRect.height * 0.25;
+  const maxY = imgRect.top + imgRect.height * 0.8;
 
-  const minY = padding;
-  const maxY = containerRect.height - btnRect.height - padding;
+  // 👉 screen se bahar na jaye
+  const safeMinX = Math.max(padding, minX);
+  const safeMaxX = Math.min(window.innerWidth - btnRect.width - padding, maxX);
 
-  const randomX = Math.random() * (maxX - minX) + minX;
-  const randomY = Math.random() * (maxY - minY) + minY;
+  const safeMinY = Math.max(padding, minY);
+  const safeMaxY = Math.min(window.innerHeight / 2, maxY);
 
+  const randomX = Math.random() * (safeMaxX - safeMinX) + safeMinX;
+  const randomY = Math.random() * (safeMaxY - safeMinY) + safeMinY;
+
+  noBtn.style.position = "fixed";
   noBtn.style.left = `${randomX}px`;
   noBtn.style.top = `${randomY}px`;
 });
 
-// Yes button
+// ================= YES BUTTON =================
 yesBtn.addEventListener("click", () => {
   questionContainer.style.display = "none";
   heartLoader.style.display = "block";
@@ -35,11 +51,11 @@ yesBtn.addEventListener("click", () => {
   setTimeout(() => {
     heartLoader.style.display = "none";
     resultContainer.style.display = "block";
-    gifResult.play();
+    if (gifResult) gifResult.play();
   }, 2500);
 });
 
-// Flowers
+// ================= FLOWERS =================
 const flowerBox = document.querySelector(".flowers-container");
 const flowers = ["🌸", "🌹", "💐", "❤️", "✨"];
 
@@ -52,7 +68,7 @@ for (let i = 0; i < 25; i++) {
   flowerBox.appendChild(f);
 }
 
-// Gallery open
+// ================= GALLERY =================
 const galleryBtn = document.querySelector(".js-gallery-trigger");
 const galleries = document.querySelectorAll(".js-side-gallery");
 
@@ -60,7 +76,7 @@ galleryBtn.addEventListener("click", () => {
   galleries.forEach(g => g.classList.toggle("revealed"));
 });
 
-// Lightbox
+// ================= LIGHTBOX =================
 const lightbox = document.querySelector(".js-lightbox");
 const lightboxContent = document.querySelector(".js-lightbox-content");
 const closeBtn = document.querySelector(".js-close-lightbox");
